@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>待办事项</title>
+		<script src="/NO2/jquery.min.js"></script>
+
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#container_1{
+				top:20px;
+				position: relative;
+				margin: 0 auto;
+				width: 1000px;
+				height: 900px;
+			}
+			#container_1_1{
+				position: absolute;
+				width: 800px;
+				height: 55px;
+				right: 110px;
+				top: 20px;
+			}
+			#container_1_1 button{
+				position: absolute;
+				width: 200px;
+				height: 55px;
+				color: white;
+				font-size: 20px;
+				border: none;
+				background-color: #f9a100;
+				right: 0px;
+			}
+			#container_1_1 input{
+				width: 596px;
+				height: 51px;
+            }
+			#container_1_2{
+				position: absolute;
+				display: flex;
+				width: 800px;
+				height: 50px;
+				right: 110px;
+				top: 110px;
+				align-items: center;
+			}
+			#container_1_2 div{
+				color: white;
+				background-color: black;
+				font-size: 20px;
+				font-family: "微软雅黑";
+				text-align: center;
+				width: 400px;
+				height: 50px;
+				line-height: 50px;
+			}
+			#task{
+				position: absolute;
+				right: 110px;
+				top: 180px;
+				width: 800px;
+				height: 700px;
+				display: flex;
+			}
+			#undo{
+				position: relative;
+				margin: 10px;
+				border: 1px #d3d3d3 solid;
+				width: 380px;
+				height: 680px;
+			}
+			#done{
+				position: relative;
+				margin: 10px;
+				border: 1px #d3d3d3 solid;
+				width: 380px;
+				height: 680px;
+			}
+			#undo p,#done p{
+				margin: 15px;
+			}
+			#undo button,#done button{
+				position: absolute;
+				right: 45px;
+				width: 50px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="container_1">
+			<div id="container_1_1">
+				<input type="text" id = "input"/>
+				<button type="button" onclick="createTask()"><b>新加待办</b></button>
+			</div>
+			<div id="container_1_2">
+				<div>
+					<b>待办</b>
+				</div>
+				<div>
+					<b>完成</b>
+				</div>
+			</div>
+			<div id="task">
+				<div id="undo">
+
+				</div>
+				<div id="done">
+					
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function createTask(){
+				var newTask = jQuery("#input");
+				if(newTask.val().trim() == ""){
+					alert("输入错误，请重新输入!");
+					newTask.val("");
+					newTask.focus();
+					return;
+				}
+				var strTask = "<p><input type='checkbox' onclick='transfer()'/>&nbsp;"+newTask.val()+"<button type='button' onclick='del()'>删除</button></p>";
+				jQuery(strTask).appendTo("#undo");
+				newTask.val("");
+				newTask.focus();
+			 }
+            //函数creatTask()用于检查输入是否为空,并且识别所保存的事项的状态
+			 function transfer() {
+				var row = event.target;
+		        var parent = row.parentNode;
+		        if (row.checked) {
+		            var target = "#done";
+		        } else {
+		            var target = "#undo";
+		        }
+		        jQuery(parent).appendTo(target);
+				jQuery("#input").focus();
+			}
+            //函数transfer()用于添加待办事项
+			function del(){
+				var row = event.target.parentNode;
+				var parent = row.parentNode;
+				parent.removeChild(row);
+				jQuery("#input").focus();
+			}
+			//函数del()用于删除列表中的事项
+		</script>
+	</body>
+</html>
